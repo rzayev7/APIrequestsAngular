@@ -1,0 +1,52 @@
+<p-toolbar>
+  <ng-template pTemplate="left">
+    <button
+      pButton
+      label="New"
+      icon="pi pi-plus"
+      class="p-button-success p-button-rounded p-button-lg"
+      style="margin: 0.5rem"
+      (click)="openModalComponent()"
+    ></button>
+  </ng-template>
+</p-toolbar>
+
+<nz-table
+  [nzData]="displayData"
+  nzTableLayout="fixed"
+  [nzPageSize]="pageSize"
+  [nzTotal]="listOfData.length"
+  [(nzPageIndex)]="pageIndex"
+  (nzPageIndexChange)="onPageIndexChange($event)"
+>
+  <thead>
+    <tr>
+      @for (column of listOfColumn; track column.key) {
+      <th>
+        {{ column.title }}
+      </th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for (data of listOfData ; track data.email) {
+    <tr>
+      <td>{{ data.id }}</td>
+      <td>{{ data.name }}</td>
+      <td>{{ data.email }}</td>
+      <td>{{ data.gender }}</td>
+      <td>{{ data.status }}</td>
+      <td class="flex gap-5">
+        <button (click)="editUser(data)">Edit</button>
+        <button (click)="deleteData(data.id)">Delete</button>
+      </td>
+    </tr>
+    }
+  </tbody>
+</nz-table>
+@if(modalIsOpen){
+<app-modal
+  [editDataItem]="editDataItem"
+  (formSubmitted)="onFormSubmitted()"
+></app-modal>
+}
